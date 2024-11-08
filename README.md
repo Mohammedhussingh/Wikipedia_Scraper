@@ -10,7 +10,7 @@ This project guides you through:
 3. **Web Scraping for Additional Data**: Extracting information from Wikipedia, a website without a public API.
 4. **Saving Output for Future Use**: Persisting the scraped data for later analysis or further processing.
 
-## Getting Started
+## Getting Started.
 
 Clone the repository and open the `.ipynb` file in Jupyter Notebook or JupyterLab. The notebook is designed to be modular, with each cell labeled and self-contained. This makes it easy to run each task independently, follow the workflow, and gain a deeper understanding of the process.
 
@@ -18,7 +18,7 @@ Clone the repository and open the `.ipynb` file in Jupyter Notebook or JupyterLa
 
 - **Python 3.x**: Ensure you have Python installed.
 - **Jupyter Notebook**: You can install Jupyter Notebook with `pip install notebook`.
-- **Additional Packages**: Install necessary libraries (e.g., `requests`, `BeautifulSoup`, etc.) by following instructions in the setup section of the notebook.
+- **Additional Packages**: Install  necessary libraries (e.g., `requests`, `BeautifulSoup`, etc.) by following instructions in the setup section of the notebook.
 
 ### Setup
 
