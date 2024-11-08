@@ -78,7 +78,7 @@ def get_leaders(session):
         
         leaders_per_country[country] = result.json()
 
-    # Loop through leaders and get first paragraph for each Wikipedia link
+    # Loop through leaders and get first paragraph for each Wikipedia link.
     for country in countries:
         for leader in leaders_per_country[country]:
             wikipedia_url = leader.get("wikipedia_url")
