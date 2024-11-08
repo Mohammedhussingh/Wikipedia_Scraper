@@ -36,7 +36,7 @@ def get_first_paragraph(wikipedia_url,session= None):
     result = session.get(wikipedia_url)
     # paring url's html content
     soup = BeautifulSoup(result.text, "html.parser")
-    #finding all paragraphs 
+    #finding all paragraphs .
     paragraphs1 = soup.find_all('p')
     #looping throup the ps 
     for paragraph in paragraphs1:
