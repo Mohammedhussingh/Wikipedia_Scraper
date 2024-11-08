@@ -46,40 +46,47 @@ def get_first_paragraph(wikipedia_url,session= None):
           return first_paragraph
 
 
-#add session to get_leaders
-def get_leaders(session_):
-    first_paragraph1=""
-    leaders_per_country={}
-    #1 defining urls and endpoints
-    root_url = "https://country-leaders.onrender.com"
-    countries_endpoint = "countries"
-    leaders_endpoint = "leaders"
-    countries_url=f"{root_url}/{countries_endpoint}"
-    leaders_url=f"{root_url}/{leaders_endpoint}"
-    #2 Getting cookie
-    cookies1=fetch_cookie()
-    #3 getting the countires
-    countries= requests.get(countries_url,cookies=cookies1)
-    # 4 looping over the countries and geting the reuslts 
-    for country in countries.json():
-        params= { "country": country}
-        result= requests.get(leaders_url,cookies=cookies1,params=params)
-    # check the status 
-        if result.status_code in [401, 403]:  
-            #fetch our cookie !
-            cookies1 = fetch_cookie()
-            #request again
-            result = requests.get(leaders_url, cookies=cookies1, params=params)
+import requests
 
-        leaders_per_country[country]=result.json()
-    for country in countries.json():
+def get_leaders(session):
+    first_paragraph = ""
+    leaders_per_country = {}
+
+    # Define URLs
+    root_url = "https://country-leaders.onrender.com"
+    countries_url = f"{root_url}/countries"
+    leaders_url = f"{root_url}/leaders"
+
+    # Get initial cookies
+    cookies = fetch_cookie()
+
+    # Fetch countries list
+    countries_response = session.get(countries_url, cookies=cookies)
+    countries = countries_response.json()
+
+    # Loop over countries to fetch leaders
+    for country in countries:
+        params = {"country": country}
+        
+        # Attempt to get leaders for the country
+        result = session.get(leaders_url, cookies=cookies, params=params)
+
+        # Retry fetching cookie if unauthorized
+        if result.status_code in [401, 403]:  
+            cookies = fetch_cookie()
+            result = session.get(leaders_url, cookies=cookies, params=params)
+        
+        leaders_per_country[country] = result.json()
+
+    # Loop through leaders and get first paragraph for each Wikipedia link
+    for country in countries:
         for leader in leaders_per_country[country]:
-            Wikipedia_url1=leader["wikipedia_url"]
-            print(Wikipedia_url1)
-            #pass the session to get_first_paragraph(()
-            first_paragraph1= get_first_paragraph(Wikipedia_url1,session_)
-            leader["first_paragraph"] = first_paragraph1
-           
+            wikipedia_url = leader.get("wikipedia_url")
+            print(wikipedia_url)
+            if wikipedia_url:
+                first_paragraph = get_first_paragraph(wikipedia_url, session)
+                leader["first_paragraph"] = first_paragraph
+    
     return leaders_per_country
 
 
